@@ -1,3 +1,4 @@
+export { usePopulationQueries } from "./api/use-population-queries";
 export {
   PopulationDataPoint,
   PopulationResponse,

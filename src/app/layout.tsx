@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+import { QueryProvider } from "@/_app/providers";
+
 import "@/_app/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -9,7 +12,9 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="ja" className="h-full antialiased">
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 };
