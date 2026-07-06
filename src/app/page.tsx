@@ -1,5 +1,1 @@
-const HomePage = () => {
-  return <main>Hello world</main>;
-};
-
-export default HomePage;
+export { HomePage as default } from "@/_pages/home";
