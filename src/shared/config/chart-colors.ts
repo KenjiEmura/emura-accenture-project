@@ -1,7 +1,7 @@
 // Line colors for the chart. A prefecture keeps its color for the whole
 // session because it is picked by prefCode, not by selection order.
 export const CHART_LINE_COLORS = [
-  "#2563eb", // blue
+  "var(--color-primary)", // the theme's blue, defined once in globals.css
   "#dc2626", // red
   "#16a34a", // green
   "#d97706", // amber

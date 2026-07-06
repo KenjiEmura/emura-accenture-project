@@ -9,9 +9,9 @@ import {
   buildChartRows,
   findProjectionBoundaryYear,
   type LoadedPopulation,
-} from "../lib/build-chart-rows";
-import { ChartSlot, resolveChartOverlay } from "./chart-slot";
-import { type ChartLine } from "./population-chart";
+} from "../../lib/build-chart-rows";
+import { ChartSlot, resolveChartOverlay } from "../chart-slot";
+import { type ChartLine } from "../population-chart";
 
 type Props = Readonly<{
   prefCodes: PrefCode[];

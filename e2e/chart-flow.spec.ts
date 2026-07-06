@@ -39,6 +39,9 @@ test("checking a prefecture draws its line and the type switch redraws it", asyn
 
   await page.goto("/");
 
+  // The app booted with the right title
+  await expect(page).toHaveTitle(/都道府県別人口推移グラフ/);
+
   // Checking a prefecture draws exactly one line
   await page.getByRole("checkbox", { name: "北海道" }).check();
   const chartLine = page.locator(".recharts-line-curve");

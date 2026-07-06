@@ -14,11 +14,11 @@ import {
 import { chartLineColorFor } from "@/shared/config";
 import { formatPopulation, usePrefersReducedMotion } from "@/shared/lib";
 
-import type { ChartRow } from "../lib/build-chart-rows";
+import type { ChartRow } from "../../lib/build-chart-rows";
 
 // Fixed chart height — also used by the loading placeholder that keeps
 // the layout from shifting while the first prefecture loads.
-export const CHART_HEIGHT_PX = 400;
+export const CHART_HEIGHT_PX = 600;
 
 // One chart line = one prefecture; the color follows the prefCode so a
 // prefecture never changes color when others are checked or unchecked.

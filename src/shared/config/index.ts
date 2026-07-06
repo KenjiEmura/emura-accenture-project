@@ -1,3 +1,4 @@
+export { APP_TITLE } from "./app";
 export {
   API_POPULATION_PATH,
   API_PREFECTURES_PATH,

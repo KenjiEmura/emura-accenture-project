@@ -3,14 +3,10 @@ import { expect, test, vi } from "vitest";
 
 import { PopulationChart } from "./population-chart";
 
-// jsdom has no layout, so ResponsiveContainer would measure 0×0 and render
-// nothing — replace it with a fixed-size chart for the test.
-vi.mock("recharts", async (importOriginal) => {
-  const recharts = await importOriginal<typeof import("recharts")>();
-  const FixedSizeContainer = (
-    props: React.ComponentProps<typeof recharts.ResponsiveContainer>,
-  ) => <recharts.ResponsiveContainer {...props} width={800} height={400} />;
-  return { ...recharts, ResponsiveContainer: FixedSizeContainer };
+// Replace ResponsiveContainer with a fixed-size one so the chart draws in jsdom
+vi.mock("recharts", async () => {
+  const { rechartsWithFixedSizeContainer } = await import("@/shared/testing");
+  return rechartsWithFixedSizeContainer();
 });
 
 const rows = [

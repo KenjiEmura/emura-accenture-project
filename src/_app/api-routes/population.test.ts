@@ -7,7 +7,8 @@ import { GET } from "./population";
 // "server-only" throws outside a real server bundle — neutralize it for tests
 vi.mock("server-only", () => ({}));
 
-const TEST_API_KEY = "test-api-key";
+// Key handling and failure details are covered by yumemi-api.test.ts;
+// here we only test what the route itself adds on top of the shared helper.
 
 // Minimal valid YUMEMI population payload
 const validYumemiPayload = {
@@ -31,7 +32,7 @@ const mockFetch = vi.fn();
 
 beforeEach(() => {
   vi.stubGlobal("fetch", mockFetch);
-  vi.stubEnv("YUMEMI_API_KEY", TEST_API_KEY);
+  vi.stubEnv("YUMEMI_API_KEY", "test-api-key");
   // Keep expected error logs out of the test output
   vi.spyOn(console, "error").mockImplementation(() => {});
 });
@@ -65,10 +66,8 @@ test.each(["?prefCode=0", "?prefCode=48", "?prefCode=abc", ""])(
   },
 );
 
-test("returns 502 when YUMEMI responds with an error status", async () => {
-  mockFetch.mockResolvedValue(
-    Response.json({ message: "Forbidden" }, { status: 403 }),
-  );
+test("returns the sanitized error when the YUMEMI call fails", async () => {
+  mockFetch.mockRejectedValue(new Error("connection refused"));
 
   const response = await GET(requestFor("?prefCode=13"));
 

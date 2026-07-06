@@ -2,7 +2,10 @@
 
 import type { PrefCode } from "@/entities/prefecture";
 import { usePrefectures } from "@/entities/prefecture";
-import { PrefectureCheckboxGrid } from "@/features/select-prefectures";
+import {
+  PrefectureCheckboxGrid,
+  PrefectureCheckboxGridSkeleton,
+} from "@/features/select-prefectures";
 
 type Props = Readonly<{
   selectedPrefCodes: PrefCode[];
@@ -15,7 +18,7 @@ export const PrefectureSelection = ({ selectedPrefCodes, onToggle }: Props) => {
   const { data: prefectures, isPending, isError, refetch } = usePrefectures();
 
   if (isPending) {
-    return <p>都道府県を読み込み中…</p>;
+    return <PrefectureCheckboxGridSkeleton />;
   }
 
   if (isError) {

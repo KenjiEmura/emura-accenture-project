@@ -2,12 +2,12 @@
 
 import { ChartSkeleton, Spinner } from "@/shared/ui";
 
-import type { ChartRow } from "../lib/build-chart-rows";
+import type { ChartRow } from "../../lib/build-chart-rows";
 import {
   CHART_HEIGHT_PX,
   type ChartLine,
   PopulationChart,
-} from "./population-chart";
+} from "../population-chart";
 
 // What floats above the chart slot.
 export type ChartOverlay = "instruction" | "spinner" | "none";

@@ -1,2 +1,7 @@
 export { usePrefectures } from "./api/use-prefectures";
-export { PrefCode, Prefecture, PrefecturesResponse } from "./model/prefecture";
+export {
+  PREFECTURE_COUNT,
+  PrefCode,
+  Prefecture,
+  PrefecturesResponse,
+} from "./model/prefecture";

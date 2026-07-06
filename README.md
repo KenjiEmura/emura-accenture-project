@@ -2,6 +2,8 @@
 
 A responsive SPA that charts population trends per prefecture, built for the frontend coding exam described below.
 
+**Live demo:** https://emura-accenture-project.vercel.app
+
 ## Development
 
 Requirements: Node.js 22+ (pnpm 11 is picked up automatically via the `packageManager` field).
@@ -11,17 +13,18 @@ pnpm install        # install dependencies
 pnpm dev            # start the dev server at http://localhost:3000
 ```
 
-| Script              | What it does                             |
-| ------------------- | ---------------------------------------- |
-| `pnpm lint`         | ESLint (flat config)                     |
-| `pnpm type`         | TypeScript compiler check (`--noEmit`)   |
-| `pnpm check`        | format check + lint + type check + tests |
-| `pnpm fmt`       | Prettier write / `fmt:check` verifies |
-| `pnpm test`         | Vitest unit + component tests            |
-| `pnpm e2e`          | Playwright end-to-end tests (chromium)   |
-| `pnpm build`        | Production build                         |
+| Script           | What it does                           |
+| ---------------- | -------------------------------------- |
+| `pnpm lint`      | ESLint (flat config)                   |
+| `pnpm type`      | TypeScript compiler check (`--noEmit`) |
+| `pnpm fmt`       | Prettier write                         |
+| `pnpm fmt:check` | Prettier format check (run by `check`) |
+| `pnpm test`      | Vitest unit + component tests          |
+| `pnpm e2e`       | Playwright end-to-end tests (chromium) |
+| `pnpm check`     | fmt:check + lint + type + test         |
+| `pnpm build`     | Production build                       |
 
-CI (GitHub Actions) runs format check → lint → type check → tests → e2e → build on every push and PR.
+CI (GitHub Actions) runs format check → lint → type check → tests → e2e → build on every push to `main` and every pull request.
 
 ## Architecture
 

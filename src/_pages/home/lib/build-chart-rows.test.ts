@@ -38,6 +38,10 @@ const tokyo: LoadedPopulation = {
           { year: 1980, value: 11618281 },
         ],
       },
+      {
+        label: "年少人口",
+        data: [{ year: 1990, value: 1921000, rate: 16.2 }],
+      },
     ],
   },
 };
@@ -46,19 +50,15 @@ test("returns no rows when nothing is loaded", () => {
   expect(buildChartRows([], "総人口")).toEqual([]);
 });
 
-test("builds one row per year with one key per prefecture", () => {
+test("builds one sorted row per year with one key per prefecture", () => {
   const rows = buildChartRows([hokkaido, tokyo], "総人口");
 
+  // Tokyo's fixture data is unordered (1990 before 1980), so this also
+  // proves the rows come out chronologically sorted
   expect(rows).toEqual([
     { year: 1980, 北海道: 5575989, 東京都: 11618281 },
     { year: 1990, 北海道: 5643647, 東京都: 11855563 },
   ]);
-});
-
-test("sorts rows chronologically even when the API data is unordered", () => {
-  const rows = buildChartRows([tokyo], "総人口");
-
-  expect(rows.map((row) => row.year)).toEqual([1980, 1990]);
 });
 
 test("picks only the selected population type", () => {
@@ -70,8 +70,12 @@ test("picks only the selected population type", () => {
 test("omits a prefecture's key for years it has no data", () => {
   const rows = buildChartRows([hokkaido, tokyo], "年少人口");
 
-  // Tokyo has no 年少人口 series at all, so only Hokkaido appears
-  expect(rows).toEqual([{ year: 1980, 北海道: 1298324 }]);
+  // Hokkaido only has 1980 and Tokyo only has 1990 for this type,
+  // so each row carries just the prefecture that has data for that year
+  expect(rows).toEqual([
+    { year: 1980, 北海道: 1298324 },
+    { year: 1990, 東京都: 1921000 },
+  ]);
 });
 
 test("finds the earliest projection boundary year", () => {

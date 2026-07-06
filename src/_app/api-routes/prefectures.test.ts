@@ -6,7 +6,8 @@ import { GET } from "./prefectures";
 // "server-only" throws outside a real server bundle — neutralize it for tests
 vi.mock("server-only", () => ({}));
 
-const TEST_API_KEY = "test-api-key";
+// Key handling and failure details are covered by yumemi-api.test.ts;
+// here we only test what the route itself adds on top of the shared helper.
 
 // Minimal valid YUMEMI prefectures payload
 const validYumemiPayload = {
@@ -18,7 +19,7 @@ const mockFetch = vi.fn();
 
 beforeEach(() => {
   vi.stubGlobal("fetch", mockFetch);
-  vi.stubEnv("YUMEMI_API_KEY", TEST_API_KEY);
+  vi.stubEnv("YUMEMI_API_KEY", "test-api-key");
   // Keep expected error logs out of the test output
   vi.spyOn(console, "error").mockImplementation(() => {});
 });
@@ -30,42 +31,16 @@ afterEach(() => {
   mockFetch.mockReset();
 });
 
-test("returns the prefecture list and sends the API key to YUMEMI", async () => {
+test("returns the prefecture list without the YUMEMI envelope", async () => {
   mockFetch.mockResolvedValue(Response.json(validYumemiPayload));
 
   const response = await GET();
 
   expect(response.status).toBe(200);
   expect(await response.json()).toEqual(validYumemiPayload.result);
-  // The key goes to YUMEMI as the X-API-KEY header
-  const [, requestInit] = mockFetch.mock.calls[0];
-  expect(requestInit.headers).toEqual({ "X-API-KEY": TEST_API_KEY });
 });
 
-test("returns 500 when the API key is not configured", async () => {
-  vi.stubEnv("YUMEMI_API_KEY", "");
-
-  const response = await GET();
-
-  expect(response.status).toBe(500);
-  expect(mockFetch).not.toHaveBeenCalled();
-});
-
-test("returns 502 when YUMEMI responds with an error status", async () => {
-  mockFetch.mockResolvedValue(
-    Response.json({ message: "Forbidden" }, { status: 403 }),
-  );
-
-  const response = await GET();
-
-  expect(response.status).toBe(502);
-  // The sanitized body must not leak the API key or the YUMEMI status
-  const body = JSON.stringify(await response.json());
-  expect(body).not.toContain(TEST_API_KEY);
-  expect(body).not.toContain("403");
-});
-
-test("returns 502 when the network request fails", async () => {
+test("returns the sanitized error when the YUMEMI call fails", async () => {
   mockFetch.mockRejectedValue(new Error("connection refused"));
 
   const response = await GET();

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 
 import { QueryProvider } from "@/_app/providers";
+import { APP_TITLE } from "@/shared/config";
 
 import "@/_app/styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "都道府県別人口推移グラフ",
+  title: APP_TITLE,
   description: "都道府県別の総人口推移をグラフで表示する SPA",
 };
 

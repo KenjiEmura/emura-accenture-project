@@ -2,6 +2,7 @@
 import "server-only";
 
 import { NextResponse } from "next/server";
+import type { z } from "zod";
 
 import { YUMEMI_API_BASE_URL } from "@/shared/config";
 
@@ -64,4 +65,31 @@ export const yumemiApiFailureResponse = (reason: YumemiApiFailureReason) => {
     { error: "Failed to fetch data from the YUMEMI API" },
     { status: 502 },
   );
+};
+
+// One YUMEMI proxy call, end to end: fetch with the key, validate the
+// untrusted response, and hand the client only the unwrapped result.
+// Both route handlers share this so the error mapping lives in one place.
+export const proxyYumemiApiRequest = async <Result>(
+  path: string,
+  responseSchema: z.ZodType<{ message: string | null; result: Result }>,
+  resourceName: string,
+  searchParams?: Record<string, string>,
+) => {
+  const result = await fetchYumemiApiJson(path, searchParams);
+  if (!result.ok) {
+    return yumemiApiFailureResponse(result.reason);
+  }
+
+  const parsed = responseSchema.safeParse(result.json);
+  if (!parsed.success) {
+    console.error(`Unexpected YUMEMI API ${resourceName} shape`, parsed.error);
+    return NextResponse.json(
+      { error: "Unexpected response from the YUMEMI API" },
+      { status: 502 },
+    );
+  }
+
+  // Drop the { message, result } envelope
+  return NextResponse.json(parsed.data.result);
 };

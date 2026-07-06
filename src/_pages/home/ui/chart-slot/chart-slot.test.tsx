@@ -3,15 +3,12 @@ import { expect, test, vi } from "vitest";
 
 import { ChartSlot, resolveChartOverlay } from "./chart-slot";
 
-// jsdom has no layout, so ResponsiveContainer would measure 0×0 and render
-// nothing — replace it with a fixed-size chart for the test.
-vi.mock("recharts", async (importOriginal) => {
-  const recharts = await importOriginal<typeof import("recharts")>();
-  const FixedSizeContainer = (
-    props: React.ComponentProps<typeof recharts.ResponsiveContainer>,
-  ) => <recharts.ResponsiveContainer {...props} width={800} height={400} />;
-  return { ...recharts, ResponsiveContainer: FixedSizeContainer };
-});
+// ChartSlot's job is choosing between the chart and the skeleton — how the
+// chart draws is covered by population-chart.test.tsx, so stub it out here.
+vi.mock("../population-chart", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../population-chart")>()),
+  PopulationChart: () => <div data-testid="population-chart" />,
+}));
 
 const rows = [{ year: 1980, 北海道: 5575989 }];
 const chartLines = [{ prefCode: 1, prefName: "北海道" }];
@@ -36,7 +33,7 @@ test("shows the skeleton with the instruction when nothing is selected", () => {
   expect(screen.getByText("都道府県を選択してください")).toBeInTheDocument();
   // The skeleton is decorative and hidden from assistive technology
   expect(container.querySelector('svg[aria-hidden="true"]')).not.toBeNull();
-  expect(container.querySelectorAll(".recharts-line")).toHaveLength(0);
+  expect(screen.queryByTestId("population-chart")).not.toBeInTheDocument();
 });
 
 test("shows the skeleton with a spinner during the first load", () => {
@@ -55,7 +52,7 @@ test("shows the skeleton with a spinner during the first load", () => {
   ).not.toBeInTheDocument();
 });
 
-test("shows the real chart once a prefecture is loaded", () => {
+test("swaps the skeleton for the chart once a prefecture is loaded", () => {
   const { container } = render(
     <ChartSlot
       rows={rows}
@@ -65,6 +62,7 @@ test("shows the real chart once a prefecture is loaded", () => {
     />,
   );
 
-  expect(container.querySelectorAll(".recharts-line")).toHaveLength(1);
+  expect(screen.getByTestId("population-chart")).toBeInTheDocument();
+  expect(container.querySelector('svg[aria-hidden="true"]')).toBeNull();
   expect(container.querySelector(".animate-spin")).toBeNull();
 });
