@@ -13,7 +13,7 @@ export type Prefecture = z.infer<typeof Prefecture>;
 export const PrefCode = z.coerce.number().int().min(1).max(47);
 export type PrefCode = z.infer<typeof PrefCode>;
 
-// Full upstream response envelope: { message, result }
+// Full YUMEMI API response envelope: { message, result }
 export const PrefecturesResponse = z.object({
   message: z.string().nullable(),
   result: z.array(Prefecture),

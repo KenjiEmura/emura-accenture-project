@@ -14,12 +14,14 @@ pnpm dev            # start the dev server at http://localhost:3000
 | Script              | What it does                             |
 | ------------------- | ---------------------------------------- |
 | `pnpm lint`         | ESLint (flat config)                     |
-| `pnpm format`       | Prettier write / `format:check` verifies |
+| `pnpm type`         | TypeScript compiler check (`--noEmit`)   |
+| `pnpm check`        | format check + lint + type check + tests |
+| `pnpm fmt`       | Prettier write / `fmt:check` verifies |
 | `pnpm test`         | Vitest unit + component tests            |
 | `pnpm e2e`          | Playwright end-to-end tests (chromium)   |
 | `pnpm build`        | Production build                         |
 
-CI (GitHub Actions) runs format check → lint → tests → e2e → build on every push and PR.
+CI (GitHub Actions) runs format check → lint → type check → tests → e2e → build on every push and PR.
 
 ---
 

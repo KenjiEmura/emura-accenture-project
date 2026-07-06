@@ -8,8 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "type": "tsc --noEmit",
+    "check": "pnpm fmt:check && pnpm lint && pnpm type && pnpm test",
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test"
@@ -18,6 +20,7 @@
     "next": "16.2.10",
     "react": "19.2.7",
     "react-dom": "19.2.7",
+    "server-only": "^0.0.1",
     "zod": "4.4.3"
   },
   "devDependencies": {
@@ -38,7 +41,6 @@
     "prettier-plugin-tailwindcss": "0.8.0",
     "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "4.1.10"
   }
 }

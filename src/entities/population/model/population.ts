@@ -33,7 +33,7 @@ export const PopulationResult = z.object({
 });
 export type PopulationResult = z.infer<typeof PopulationResult>;
 
-// Full upstream response envelope: { message, result }
+// Full YUMEMI API response envelope: { message, result }
 export const PopulationResponse = z.object({
   message: z.string().nullable(),
   result: PopulationResult,
