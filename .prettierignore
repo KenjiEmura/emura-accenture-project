@@ -1,0 +1,10 @@
+.next
+node_modules
+pnpm-lock.yaml
+coverage
+# Original exam documents — keep untouched
+docs/
+README.md
+# Local planning files (gitignored)
+implementation_plan.md
+coding_rules.md

@@ -18,10 +18,10 @@
 
 本 API で利用可能なパスは以下の通りです。
 
-| **メソッド** | **パス** | **説明** |
-| --- | --- | --- |
-| GET | `/api/v1/prefectures` | 都道府県一覧を取得 |
-| GET | `/api/v1/population/composition/perYear` | 人口構成データを取得 |
+| **メソッド** | **パス**                                 | **説明**             |
+| ------------ | ---------------------------------------- | -------------------- |
+| GET          | `/api/v1/prefectures`                    | 都道府県一覧を取得   |
+| GET          | `/api/v1/population/composition/perYear` | 人口構成データを取得 |
 
 ### ◎ API キーの設定について
 
@@ -31,9 +31,9 @@
 
 ※ 本 API は運用の簡素化を図るため、すべての応募者に共通の API キーを提供しております。
 
-| **リクエストヘッダー** | **API キー** |
-| --- | --- |
-| X-API-KEY | 8FzX5qLmN3wRtKjH7vCyP9bGdEaU4sYpT6cMfZnJ |
+| **リクエストヘッダー** | **API キー**                             |
+| ---------------------- | ---------------------------------------- |
+| X-API-KEY              | 8FzX5qLmN3wRtKjH7vCyP9bGdEaU4sYpT6cMfZnJ |
 
 ### ◎ レスポンスヘッダーについて
 
@@ -119,8 +119,8 @@ curl -X GET "https://frontend-engineer-codecheck-api.mirai.yumemi.io/api/v1/pref
 
 **Parameters**
 
-| **Name** | **Description** |
-| --- | --- |
+| **Name**     | **Description**    |
+| ------------ | ------------------ |
 | **prefCode** | **都道府県コード** |
 
 **Response Example**
