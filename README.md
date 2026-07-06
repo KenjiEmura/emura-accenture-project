@@ -23,6 +23,26 @@ pnpm dev            # start the dev server at http://localhost:3000
 
 CI (GitHub Actions) runs format check → lint → type check → tests → e2e → build on every push and PR.
 
+## Architecture
+
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · TanStack Query v5 · Recharts 3 · Zod 4 · Vitest + Testing Library · Playwright.
+
+**Security — the API key never reaches the browser.** The exam API key would be world-readable in a client-side SPA, so the browser only calls our own routes (`/api/prefectures`, `/api/population?prefCode=N`). Next.js Route Handlers attach `X-API-KEY` server-side, validate the input and the upstream response with Zod (`.safeParse`), return sanitized errors, and cache upstream responses for 24h (the data is a static snapshot). The key lives in the `YUMEMI_API_KEY` env var (`.env.local`, template in [.env.template](.env.template)) and the module reading it is guarded with `server-only`.
+
+**Structure — [Feature-Sliced Design](https://feature-sliced.design/):** imports flow strictly downward, every slice exposes its public API via `index.ts`.
+
+```
+src/
+  app/        Next.js routing glue only (re-exports)
+  _app/       providers, API route handlers, global styles
+  _pages/     home page composition + chart (underscore: Next.js reserves "pages")
+  features/   select-prefectures, choose-population-type
+  entities/   prefecture, population (Zod schemas + query hooks)
+  shared/     fetch client, config constants, formatting helpers
+```
+
+**Testing:** unit tests for pure logic and the proxy handlers (YUMEMI fetch mocked — CI never hits the real API), component tests for every interactive component, and two Playwright specs covering the real page wiring with mocked proxy responses.
+
 ---
 
 # フロントエンドコーディング試験

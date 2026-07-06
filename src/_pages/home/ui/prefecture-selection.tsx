@@ -22,7 +22,7 @@ export const PrefectureSelection = ({ selectedPrefCodes, onToggle }: Props) => {
     return (
       <p role="alert">
         都道府県の取得に失敗しました{" "}
-        <button type="button" className="underline" onClick={() => refetch()}>
+        <button type="button" className="link-button" onClick={() => refetch()}>
           再試行
         </button>
       </p>

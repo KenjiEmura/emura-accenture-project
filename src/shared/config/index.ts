@@ -5,3 +5,4 @@ export {
   YUMEMI_POPULATION_PATH,
   YUMEMI_PREFECTURES_PATH,
 } from "./api";
+export { CHART_LINE_COLORS, chartLineColorFor } from "./chart-colors";
