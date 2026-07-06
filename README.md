@@ -1,3 +1,28 @@
+# 都道府県別人口推移グラフ
+
+A responsive SPA that charts population trends per prefecture, built for the frontend coding exam described below.
+
+## Development
+
+Requirements: Node.js 22+ (pnpm 11 is picked up automatically via the `packageManager` field).
+
+```bash
+pnpm install        # install dependencies
+pnpm dev            # start the dev server at http://localhost:3000
+```
+
+| Script              | What it does                             |
+| ------------------- | ---------------------------------------- |
+| `pnpm lint`         | ESLint (flat config)                     |
+| `pnpm format`       | Prettier write / `format:check` verifies |
+| `pnpm test`         | Vitest unit + component tests            |
+| `pnpm e2e`          | Playwright end-to-end tests (chromium)   |
+| `pnpm build`        | Production build                         |
+
+CI (GitHub Actions) runs format check → lint → tests → e2e → build on every push and PR.
+
+---
+
 # フロントエンドコーディング試験
 
 ## 課題
